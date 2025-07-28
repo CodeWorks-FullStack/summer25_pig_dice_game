@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("pig_dice_game")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d46fc95a8892334e720dadaaec4993e5f3b0cb42")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+caaa421d2ac804cf24b2ba5371819d7a89efa04c")]
 [assembly: System.Reflection.AssemblyProductAttribute("pig_dice_game")]
 [assembly: System.Reflection.AssemblyTitleAttribute("pig_dice_game")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

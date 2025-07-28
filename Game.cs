@@ -1,3 +1,5 @@
+
+// allows other modules in our application to use Game class by `using` this namespace (similar to export)
 using pig_dice_game.Models;
 
 namespace pig_dice_game.Game;
@@ -8,13 +10,12 @@ public class Game
 {
   public List<Player> Players = []; // defaults to an empty list
   public int RunningTotal = 0;
-  public int WinningScore { get; } = 30;
+  public int WinningScore { get; } = 30; // readonly
 
-  public Game()
+  public Game() // constructor
   {
     Console.WriteLine("Starting 🐖 game!");
     Console.WriteLine("How many players?");
-    // NOTE pause our code and wait for user to type into console
     int numberOfPlayers = GetNumberOfPlayers();
     Console.WriteLine($"Number of players is {numberOfPlayers}");
 
@@ -30,12 +31,13 @@ public class Game
 
     for (int i = 0; i <= Players.Count; i++)
     {
+      // NOTE restarts for loop
+      // NOTE PRO TIP: ctrl+c in terminal will kill application
       if (i == Players.Count)
       {
         i = 0;
       }
 
-      // NOTE PRO TIP: ctrl+c in terminal will kill application
       RunningTotal = 0;
       Player player = Players[i];
       Console.Clear();
@@ -63,16 +65,18 @@ public class Game
 
   public int GetNumberOfPlayers()
   {
+    // NOTE pauses our code and wait for user to type into console
     string? consoleInput = Console.ReadLine();
 
     if (consoleInput == null)
     {
       Console.WriteLine("You must enter a valid number of players");
-      return GetNumberOfPlayers();
+      return GetNumberOfPlayers(); // recursion
     }
 
     int numberOfPlayers;
 
+    // NOTE returns true if can successfully parse a string into an interger, and assigns numberOfPlayers variable to said integer. If it cannot parse the string into an integer, returns false
     bool success = int.TryParse(consoleInput, out numberOfPlayers);
 
     if (!success)
@@ -99,7 +103,7 @@ public class Game
 
   public void RollDice(Player currentPlayer)
   {
-    int randomRoll = new Random().Next(1, 7); // number between 0-7
+    int randomRoll = new Random().Next(1, 7); // random number between 0-7
     Console.WriteLine($"You rolled a {randomRoll}.");
 
     if (randomRoll == 1)
@@ -123,7 +127,10 @@ public class Game
     Console.WriteLine($"Your running total is {RunningTotal}. Your current Score is {currentPlayer.Score}. If you stop now, your score will be {currentPlayer.Score + RunningTotal}");
     Console.WriteLine("Would you like to roll again? y/n");
 
+    // NOTE reads the first key pressed on the keyboard and converts it into a `char`
     char consoleInput = Console.ReadKey().KeyChar;
+
+    // NOTE adds empty line
     Console.WriteLine();
 
     if (consoleInput == 'n')
