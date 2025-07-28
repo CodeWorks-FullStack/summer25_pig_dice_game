@@ -7,7 +7,7 @@ namespace pig_dice_game.Game;
 public class Game
 {
   public List<Player> Players = []; // defaults to an empty list
-
+  public int RunningTotal = 0;
 
   public Game()
   {
@@ -34,10 +34,11 @@ public class Game
       }
 
       // NOTE PRO TIP: ctrl+c in terminal will kill application
-
+      RunningTotal = 0;
       Player player = Players[i];
+      Console.Clear();
       Console.WriteLine($"Turn for {player.Name}");
-      RollDice();
+      RollDice(player);
     }
   }
 
@@ -77,11 +78,23 @@ public class Game
     return consoleInput;
   }
 
-  public void RollDice()
+  public void RollDice(Player currentPlayer)
   {
-    int randomNumber = new Random().Next(1, 7); // number between 0-7
-    Console.WriteLine($"You rolled a {randomNumber}.");
+    int randomRoll = new Random().Next(1, 7); // number between 0-7
+    Console.WriteLine($"You rolled a {randomRoll}.");
 
+    if (randomRoll == 1)
+    {
+      Console.Beep();
+      Console.ForegroundColor = ConsoleColor.Red;
+      Console.WriteLine("TOO BAD!");
+      Thread.Sleep(1000); // wait for 1000 milliseconds and then continue
+      Console.ResetColor();
+      return;
+    }
+
+    RunningTotal += randomRoll;
+    Console.WriteLine($"Your running total is {RunningTotal}. Your current Score is {currentPlayer.Score}. If you stop now, your score will be {currentPlayer.Score + RunningTotal}");
     Console.WriteLine("Would you like to roll again? y/n");
 
     char consoleInput = Console.ReadKey().KeyChar;
@@ -89,9 +102,10 @@ public class Game
 
     if (consoleInput == 'n')
     {
+      currentPlayer.Score += RunningTotal;
       return;
     }
 
-    RollDice();
+    RollDice(currentPlayer);
   }
 }
