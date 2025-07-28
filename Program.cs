@@ -10,6 +10,7 @@ class Program
     // Console.WriteLine("Starting Program");
 
     new Game();
+
   }
 
 }

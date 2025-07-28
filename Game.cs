@@ -8,6 +8,7 @@ public class Game
 {
   public List<Player> Players = []; // defaults to an empty list
   public int RunningTotal = 0;
+  public int WinningScore { get; } = 30;
 
   public Game()
   {
@@ -26,6 +27,7 @@ public class Game
       Console.WriteLine($"Player {i + 1} is {player.Name}");
     }
 
+
     for (int i = 0; i <= Players.Count; i++)
     {
       if (i == Players.Count)
@@ -39,7 +41,24 @@ public class Game
       Console.Clear();
       Console.WriteLine($"Turn for {player.Name}");
       RollDice(player);
+
+      if (player.Score >= WinningScore)
+      {
+        break;
+      }
     }
+
+    Player? winningPlayer = Players.Find(player => player.Score >= WinningScore);
+
+    if (winningPlayer == null)
+    {
+      throw new Exception("Jeremy your code is bad");
+    }
+
+    Console.ForegroundColor = ConsoleColor.Green;
+
+    Console.WriteLine($"{winningPlayer.Name.ToUpper()} WINS!");
+    Console.ResetColor();
   }
 
   public int GetNumberOfPlayers()
@@ -94,6 +113,13 @@ public class Game
     }
 
     RunningTotal += randomRoll;
+
+    if (currentPlayer.Score + RunningTotal >= WinningScore)
+    {
+      currentPlayer.Score += RunningTotal;
+      return;
+    }
+
     Console.WriteLine($"Your running total is {RunningTotal}. Your current Score is {currentPlayer.Score}. If you stop now, your score will be {currentPlayer.Score + RunningTotal}");
     Console.WriteLine("Would you like to roll again? y/n");
 
